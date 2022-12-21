@@ -1,26 +1,50 @@
 // A FAIRE :
-// AFFICHER VOUS AVEZ GAGNER LORSQUE L'ON TROUVE TOUTES LES LETTRES
-// POPUP VOUS AVEZ GAGNER/PERDU AVEC BOUTON REJOUER
 // IMAGE DU PENDU
 
 
 
 
 
-const listeDeMot = ["chient", "chat", "oiseau"];
+const listeDeMot = ["chien", "chat", "oiseau"];
 
 let mot = listeDeMot[Math.floor(Math.random() * listeDeMot.length)];
 let lettres = mot.split("");
 let leMotaDeviner = new Array(lettres.length).fill("_");
-let essaiRestants = 10;
+let essaiRestants = 5;
 
 const hangmanForm = document.getElementById("hangman-form");
 const resultDiv = document.getElementById("result");
 const erreur = document.querySelector(".message-erreur");
 const nombreEssais = document.querySelector('#nombre-essais');
 
+const jeu = document.querySelector(".jeu");
+const popup = document.querySelector(".findejeu");
+const messagefin = document.querySelector('.message-findejeu');
+const descriptionfin = document.querySelector('.description-findejeu');
+const rejouer = document.querySelector('.rejouer');
+
 resultDiv.textContent = `${leMotaDeviner.join(" ")}`
 nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`
+
+
+function victoire(){
+    jeu.classList.add("cache");
+    popup.classList.remove('cache');
+    messagefin.textContent = "Félécitation vous avez gagné !";
+    descriptionfin.textContent = `Vous avez trouvé le mot : ${mot}`;
+    rejouer.addEventListener("click", function(){window.location.reload()});
+}
+
+function defaite(){
+    jeu.classList.add("cache");
+    popup.classList.remove('cache');
+    messagefin.textContent = "Vous avez perdu !"
+    descriptionfin.textContent = `Le mot à trouver était : ${mot}`
+    rejouer.addEventListener("click", function(){window.location.reload()});
+}
+  
+
+
 
 
 
@@ -30,14 +54,15 @@ hangmanForm.addEventListener("submit", (event) => {
 
   let essai = document.getElementById("guess-input").value.toLowerCase();
 
+
+  // AJOUTER REGEX POUR EVITER LES CARACTERE SPECIAUX
   if(essai === '' || !isNaN(essai)){
     erreur.textContent = 'Vous devez inserer une lettre ou un mot';
   }
   else{
     erreur.textContent = '';
     if (essai === mot) {
-      resultDiv.textContent = "Félicitations ! Vous avez deviné le mot !";
-      hangmanForm.reset();
+      victoire();
     } else if (lettres.includes(essai)) {
       for (let i = 0; i < lettres.length; i++) {
         if (lettres[i] === essai) {
@@ -47,13 +72,16 @@ hangmanForm.addEventListener("submit", (event) => {
       resultDiv.textContent = `${leMotaDeviner.join(" ")}`;
       nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`;
       hangmanForm.reset();
+
+      if(mot == leMotaDeviner.join("")){
+        victoire();
+        }
     } else {
       essaiRestants--;
 
 
       if (essaiRestants === 0) {
-        resultDiv.textContent = `Désolé, vous avez perdu. Le mot était "${mot}"`;
-        nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`;
+       defaite()
       } else {
         resultDiv.textContent = `${leMotaDeviner.join(" ")}`;
         nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`;

@@ -15,14 +15,21 @@
     <h1>Le jeu du pendu</h1>
 
     <div class="container">
-        <form id="hangman-form">
-            <label for="guess-input">Devinez une lettre ou le mot entier :</label><br>
-            <input type="text" id="guess-input"><br>
-            <p class="message-erreur"></p>
-            <button type="submit" id="submit-button">Envoyer</button>
-        </form>
-          <div id="result"></div>
-          <div id="nombre-essais"></div>
+        <div class="jeu">
+            <form id="hangman-form">
+                <label for="guess-input">Devinez une lettre ou le mot entier :</label><br>
+                <input type="text" id="guess-input"><br>
+                <p class="message-erreur"></p>
+                <button type="submit" id="submit-button">Envoyer</button>
+            </form>
+            <div id="result"></div>
+            <div id="nombre-essais"></div>
+        </div>
+        <div class="findejeu cache">
+            <h2 class="message-findejeu"></h2>
+            <p class="description-findejeu">vous avez trouvé 'chat' en 5 coups !</p>
+            <button class="rejouer">Rejouer</button>
+        </div>
     </div>
     <div class="footer">JohanLMNL - Novembre 2022<div>
     <script src="script.js"></script>
