@@ -10,7 +10,7 @@ const listeDeMot = ["chien", "chat", "oiseau"];
 let mot = listeDeMot[Math.floor(Math.random() * listeDeMot.length)];
 let lettres = mot.split("");
 let leMotaDeviner = new Array(lettres.length).fill("_");
-let essaiRestants = 5;
+let essaiRestants = 6;
 
 const hangmanForm = document.getElementById("hangman-form");
 const resultDiv = document.getElementById("result");
@@ -18,6 +18,7 @@ const erreur = document.querySelector(".message-erreur");
 const nombreEssais = document.querySelector('#nombre-essais');
 
 const jeu = document.querySelector(".jeu");
+const pendu = document.querySelector('.img-pendu');
 const popup = document.querySelector(".findejeu");
 const messagefin = document.querySelector('.message-findejeu');
 const descriptionfin = document.querySelector('.description-findejeu');
@@ -54,7 +55,6 @@ hangmanForm.addEventListener("submit", (event) => {
 
   let essai = document.getElementById("guess-input").value.toLowerCase();
 
-
   // AJOUTER REGEX POUR EVITER LES CARACTERE SPECIAUX
   if(essai === '' || !isNaN(essai)){
     erreur.textContent = 'Vous devez inserer une lettre ou un mot';
@@ -78,6 +78,7 @@ hangmanForm.addEventListener("submit", (event) => {
         }
     } else {
       essaiRestants--;
+      pendu.src = `img/pendu${essaiRestants}.svg`;
 
 
       if (essaiRestants === 0) {
