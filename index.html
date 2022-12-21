@@ -13,9 +13,17 @@
 </head>
 <body>
     <h1>Le jeu du pendu</h1>
-    <h2>Cliquez ou appuyez sur une lettre pour commencer</h2>
 
-    <div class="container"></div>
+    <div class="container">
+        <form id="hangman-form">
+            <label for="guess-input">Devinez une lettre ou le mot entier :</label><br>
+            <input type="text" id="guess-input"><br>
+            <p class="message-erreur"></p>
+            <button type="submit" id="submit-button">Envoyer</button>
+        </form>
+          <div id="result"></div>
+          <div id="nombre-essais"></div>
+    </div>
     <div class="footer">JohanLMNL - Novembre 2022<div>
     <script src="script.js"></script>
 </body>

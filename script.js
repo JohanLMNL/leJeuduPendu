@@ -1,11 +1,63 @@
-// 1_ Liste Des mots à trouver
-// 2_ Selection d'un mot aléatoirement dans la liste
-// 3_ Affichage du mot selectionner sous forme de tirets
-// 4_ Clavier qui reconnait les lettres sur lesquelles on tape
-// 5_ Affichage du mot en fonction des lettres sur lesquelles on tape
-// 6_ "Bloquer" les lettres déjà utilisées
-// 7_ Donner un nombre de coups limités pour trouver le mot
-// 8_ Compter les points et game over aprés un certain nombre de coups
-// 9_ Afficher le bonhomme Pendu
-// 10_On ajoute la possibilité de mettre le mot (-1 coups)
-// 11_ Popup "Vous Avez gagner (perdu)" et bouton rejouer
+// A FAIRE :
+// AFFICHER VOUS AVEZ GAGNER LORSQUE L'ON TROUVE TOUTES LES LETTRES
+// POPUP VOUS AVEZ GAGNER/PERDU AVEC BOUTON REJOUER
+// IMAGE DU PENDU
+
+
+
+
+
+const listeDeMot = ["chient", "chat", "oiseau"];
+
+let mot = listeDeMot[Math.floor(Math.random() * listeDeMot.length)];
+let lettres = mot.split("");
+let leMotaDeviner = new Array(lettres.length).fill("_");
+let essaiRestants = 10;
+
+const hangmanForm = document.getElementById("hangman-form");
+const resultDiv = document.getElementById("result");
+const erreur = document.querySelector(".message-erreur");
+const nombreEssais = document.querySelector('#nombre-essais');
+
+resultDiv.textContent = `${leMotaDeviner.join(" ")}`
+nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`
+
+
+
+
+hangmanForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  let essai = document.getElementById("guess-input").value.toLowerCase();
+
+  if(essai === '' || !isNaN(essai)){
+    erreur.textContent = 'Vous devez inserer une lettre ou un mot';
+  }
+  else{
+    erreur.textContent = '';
+    if (essai === mot) {
+      resultDiv.textContent = "Félicitations ! Vous avez deviné le mot !";
+      hangmanForm.reset();
+    } else if (lettres.includes(essai)) {
+      for (let i = 0; i < lettres.length; i++) {
+        if (lettres[i] === essai) {
+          leMotaDeviner[i] = essai;
+        }
+      }
+      resultDiv.textContent = `${leMotaDeviner.join(" ")}`;
+      nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`;
+      hangmanForm.reset();
+    } else {
+      essaiRestants--;
+
+
+      if (essaiRestants === 0) {
+        resultDiv.textContent = `Désolé, vous avez perdu. Le mot était "${mot}"`;
+        nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`;
+      } else {
+        resultDiv.textContent = `${leMotaDeviner.join(" ")}`;
+        nombreEssais.textContent = `Il vous reste ${essaiRestants} essais`;
+      }
+      hangmanForm.reset();
+    }
+  }});
